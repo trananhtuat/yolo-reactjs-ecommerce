@@ -13,17 +13,9 @@ const InfinityList = props => {
     const [load, setLoad] = useState(true)
     const [index, setIndex] = useState(0)
 
-    const getItems = (count, page) => {
-        console.log(page)
-        const start = count * page
-        const end = start + count
-        return props.data.slice(start, end)
-    }
-
     const [data, setData] = useState([])
 
     useEffect(() => {
-        console.log('setData')
         setData(props.data.slice(0, perLoad))
         setIndex(1)
     }, [props.data, perLoad])
