@@ -1,10 +1,9 @@
 import React, {useState, useCallback, useEffect} from 'react'
 
 import Helmet from '../components/Helmet'
-import Grid from '../components/Grid'
-import ProductCard from '../components/ProductCard'
 import CheckBox from '../components/CheckBox'
 import Button from '../components/Button'
+import InfinityList from '../components/InfinityList'
 
 import productData from '../assets/fake-data/products'
 import category from '../assets/fake-data/category'
@@ -95,9 +94,9 @@ const Catalog = () => {
 
     return (
         <Helmet title="Sản phẩm">
-        {
-            console.log(filter)
-        }
+            {
+                console.log(products)
+            }
             <div className="catalog">
                 <div className="catalog__filter">
                     <div className="catalog__filter__widget">
@@ -164,7 +163,8 @@ const Catalog = () => {
                     </div>
                 </div>
                 <div className="catalog__content">
-                    <Grid
+                    <InfinityList data={products}/>
+                    {/* <Grid
                         col={3}
                         mdCol={2}
                         smCol={1}
@@ -176,13 +176,13 @@ const Catalog = () => {
                                     key={index}
                                     img01={item.image01}
                                     img02={item.image02}
-                                    name={item.name}
+                                    name={item.title}
                                     price={Number(item.price)}
                                     slug={item.slug}
                                 />
                             ))
                         }
-                    </Grid>
+                    </Grid> */}
                 </div>
             </div>
         </Helmet>
