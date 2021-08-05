@@ -12,6 +12,10 @@
 
 html {
     font-size: 13px;
+
+    @include mobile {
+        font-size: 11px;
+    }
 }
 
 body {

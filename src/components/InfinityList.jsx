@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import Grid from './Grid'
@@ -6,51 +6,52 @@ import ProductCard from './ProductCard'
 
 const InfinityList = props => {
 
-    const listRef = useRef(null)
+    const perLoad = 6 // items each load
 
-    const perLoad = 6
+    const listRef = useRef(null)
+    
+    const [data, setData] = useState([])
 
     const [load, setLoad] = useState(true)
-    const [index, setIndex] = useState(0)
 
-    const [data, setData] = useState([])
+    const [index, setIndex] = useState(0)
 
     useEffect(() => {
         setData(props.data.slice(0, perLoad))
         setIndex(1)
-    }, [props.data, perLoad])
+    }, [props.data])
 
     useEffect(() => {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY + window.innerHeight >= listRef.current.clientHeight + listRef.current.offsetTop + 200) {
-                setLoad(true)
+        window.addEventListener("scroll", () => {
+            if (listRef && listRef.current) {
+                if (window.scrollY + window.innerHeight >= listRef.current.clientHeight + listRef.current.offsetTop + 200) {
+                    console.log("bottom reach")
+                    setLoad(true)
+                }
             }
+            
         })
-    }, [listRef, data, perLoad, index])
+    }, [listRef])
 
     useEffect(() => {
-        const getMoreItems = (page) => {
-
+        const getItems = () => {
             const pages = Math.floor(props.data.length / perLoad)
             const maxIndex = props.data.length % perLoad === 0 ? pages : pages + 1
 
-            if (load && page <= maxIndex) {
-                console.log('getMoreItems ===')
-                const start = perLoad * page
+            if (load && index <= maxIndex) {
+                const start = perLoad * index
                 const end = start + perLoad
+
                 setData(data.concat(props.data.slice(start, end)))
                 setIndex(index + 1)
             }
         }
-        getMoreItems(index)
+        getItems()
         setLoad(false)
     }, [load, index, data, props.data])
 
     return (
         <div ref={listRef}>
-            {
-                console.log(props.data)
-            }
             <Grid
                 col={3}
                 mdCol={2}
